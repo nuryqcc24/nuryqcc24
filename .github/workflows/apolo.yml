@@ -1,0 +1,35 @@
+# Todos los días a medianoche de Perú (05:00 UTC) vuelve a dibujar a Apolo
+# con el tema de la fecha: Halloween, Navidad, Fiestas Patrias, etc.
+name: Vestir a Apolo
+
+on:
+  schedule:
+    - cron: "5 5 * * *"
+  workflow_dispatch:   # botón "Run workflow" para probarlo a mano
+  push:
+    paths:
+      - generar_gatito.py
+
+permissions:
+  contents: write
+
+jobs:
+  vestir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Dibujar a Apolo
+        run: python3 generar_gatito.py
+
+      - name: Guardar si cambió
+        run: |
+          if git diff --quiet gatito.svg; then
+            echo "Sin cambios"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add gatito.svg
+          git commit -m "Apolo: tema del día"
+          git push
