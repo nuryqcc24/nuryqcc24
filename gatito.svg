@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 130" width="900" height="130">
+  <style>
+    /* el gatito cruza la pantalla de izquierda a derecha y vuelve a empezar */
+    .paseo { animation: cruzar 16s linear infinite; }
+    @keyframes cruzar { from { transform: translateX(-160px); } to { transform: translateX(940px); } }
+
+    /* pasitos: las patas se mueven en pares opuestos */
+    .pata { animation: paso .45s ease-in-out infinite alternate; }
+    .pata.b { animation-delay: -.45s; }
+    .p1 { transform-origin: 34px 74px; }
+    .p2 { transform-origin: 46px 74px; }
+    .p3 { transform-origin: 80px 74px; }
+    .p4 { transform-origin: 92px 74px; }
+    @keyframes paso { from { transform: rotate(-18deg); } to { transform: rotate(18deg); } }
+
+    /* el cuerpo sube y baja un poquito al caminar */
+    .cuerpo { animation: rebote .45s ease-in-out infinite alternate; }
+    @keyframes rebote { to { transform: translateY(-2px); } }
+
+    /* la cola se mece */
+    .cola { transform-origin: 22px 60px; animation: mecer 1.2s ease-in-out infinite alternate; }
+    @keyframes mecer { from { transform: rotate(-12deg); } to { transform: rotate(14deg); } }
+
+    /* parpadeo */
+    .ojo { transform-box: fill-box; transform-origin: center; animation: parpadear 4s infinite; }
+    @keyframes parpadear { 0%, 92%, 100% { transform: scaleY(1); } 95% { transform: scaleY(.1); } }
+
+    .pelo { fill: #f4a261; stroke: #9c4a12; stroke-width: 2.5; }
+    .raya { fill: none; stroke: #c96a24; stroke-width: 4; stroke-linecap: round; }
+    .bigote { stroke: #9c4a12; stroke-width: 1.5; stroke-linecap: round; }
+  </style>
+
+  <g class="paseo">
+    <g transform="translate(0 18)">
+      <!-- patas de atrás (más oscuras, quedan detrás) -->
+      <rect class="pata p2 b pelo" x="42" y="68" width="10" height="30" rx="5" fill="#e08a48"/>
+      <rect class="pata p4 pelo" x="88" y="68" width="10" height="30" rx="5" fill="#e08a48"/>
+
+      <g class="cuerpo">
+        <!-- cola -->
+        <path class="cola" d="M24 60 C 4 54, -6 34, 6 16" fill="none" stroke="#9c4a12" stroke-width="11" stroke-linecap="round"/>
+        <path class="cola" d="M24 60 C 4 54, -6 34, 6 16" fill="none" stroke="#f4a261" stroke-width="7" stroke-linecap="round"/>
+        <!-- cuerpo con rayas -->
+        <ellipse class="pelo" cx="62" cy="62" rx="44" ry="21"/>
+        <path class="raya" d="M48 44 C 50 52, 50 58, 46 66"/>
+        <path class="raya" d="M62 42 C 64 50, 64 58, 60 68"/>
+        <path class="raya" d="M76 43 C 78 50, 78 56, 74 64"/>
+        <!-- cabeza -->
+        <path class="pelo" d="M98 30 L 101 8 L 114 24 Z"/>
+        <path class="pelo" d="M120 24 L 132 8 L 134 32 Z"/>
+        <path d="M102 26 L 103 14 L 110 23 Z" fill="#f9a8b8"/>
+        <path d="M124 24 L 130 14 L 131 29 Z" fill="#f9a8b8"/>
+        <circle class="pelo" cx="117" cy="42" r="21"/>
+        <ellipse class="ojo" cx="111" cy="39" rx="3.2" ry="4.5" fill="#1f2937"/>
+        <ellipse class="ojo" cx="125" cy="39" rx="3.2" ry="4.5" fill="#1f2937"/>
+        <circle cx="112" cy="37.5" r="1.2" fill="#fff"/>
+        <circle cx="126" cy="37.5" r="1.2" fill="#fff"/>
+        <path d="M115 47 L 121 47 L 118 50.5 Z" fill="#f472b6"/>
+        <path d="M118 50.5 C 116 54, 112 54, 111 52 M118 50.5 C 120 54, 124 54, 125 52" fill="none" stroke="#9c4a12" stroke-width="1.5" stroke-linecap="round"/>
+        <line class="bigote" x1="126" y1="48" x2="146" y2="44"/>
+        <line class="bigote" x1="126" y1="51" x2="146" y2="52"/>
+        <line class="bigote" x1="110" y1="48" x2="92" y2="44"/>
+        <line class="bigote" x1="110" y1="51" x2="92" y2="52"/>
+      </g>
+
+      <!-- patas de adelante -->
+      <rect class="pata p1 pelo" x="30" y="68" width="10" height="30" rx="5"/>
+      <rect class="pata p3 b pelo" x="76" y="68" width="10" height="30" rx="5"/>
+    </g>
+  </g>
+</svg>
