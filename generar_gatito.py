@@ -40,34 +40,39 @@ def tema_del_dia(hoy: date) -> str:
 
 # ---------- Accesorios que lleva Apolo (coordenadas del gatito) ----------
 
-COLLAR = """
-      <path d="M100 55 Q 107 64 117 63" fill="none" stroke="#dc2626" stroke-width="5" stroke-linecap="round"/>"""
-
 CASCABEL = """
-      <circle cx="108" cy="65" r="3.5" fill="#fbbf24" stroke="#92400e" stroke-width="1.2"/>"""
+        <circle cx="101" cy="79" r="4" fill="#fbbf24" stroke="#92400e" stroke-width="1.2"/>
+        <path d="M98.5 79.5 L 103.5 79.5" stroke="#92400e" stroke-width="1"/>"""
 
-ACCESORIOS = {
-    "normal": CASCABEL,
-    "anio_nuevo": CASCABEL + """
-      <path d="M106 23 L 117 -10 L 128 23 Z" fill="#ec4899" stroke="#831843" stroke-width="2"/>
-      <path d="M110 12 L 124 12 M113 2 L 121 2" stroke="#fde047" stroke-width="3" stroke-linecap="round"/>
-      <circle cx="117" cy="-12" r="4.5" fill="#fde047"/>""",
-    "san_valentin": CASCABEL + """
-      <g class="latido"><path d="M117 4 C 112 -4, 101 0, 106 9 L 117 19 L 128 9 C 133 0, 122 -4, 117 4 Z"
-        fill="#f43f5e" stroke="#881337" stroke-width="1.5"/></g>""",
-    "fiestas_patrias": """
-      <path d="M103 66 L 99 80 L 105 76 Z M113 66 L 117 80 L 111 76 Z" fill="#d91023"/>
-      <circle cx="108" cy="65" r="8" fill="#d91023"/>
-      <circle cx="108" cy="65" r="5" fill="#ffffff"/>
-      <circle cx="108" cy="65" r="2" fill="#d91023"/>""",
-    "halloween": CASCABEL + """
-      <ellipse cx="118" cy="23" rx="24" ry="5" fill="#6d28d9" stroke="#2e1065" stroke-width="2"/>
-      <path d="M105 22 L 125 -16 L 132 22 Z" fill="#7c3aed" stroke="#2e1065" stroke-width="2"/>
-      <path d="M106 17 L 131 17" stroke="#f97316" stroke-width="5"/>""",
-    "navidad": CASCABEL + """
-      <path d="M100 24 Q 116 -16 152 8 L 138 24 Z" fill="#dc2626" stroke="#7f1d1d" stroke-width="2"/>
-      <rect x="97" y="19" width="44" height="9" rx="4.5" fill="#ffffff" stroke="#d1d5db" stroke-width="1"/>
-      <circle cx="153" cy="8" r="5.5" fill="#ffffff" stroke="#d1d5db" stroke-width="1"/>""",
+ESCARAPELA = """
+        <path d="M96 80 L 92 93 L 98 89 Z M106 80 L 110 93 L 104 89 Z" fill="#d91023"/>
+        <circle cx="101" cy="79" r="8" fill="#d91023"/>
+        <circle cx="101" cy="79" r="5" fill="#ffffff"/>
+        <circle cx="101" cy="79" r="2" fill="#d91023"/>"""
+
+# lo que va en el cuello
+CUELLO = {tema: CASCABEL for tema in TEMAS}
+CUELLO["fiestas_patrias"] = ESCARAPELA
+
+# lo que va en la cabeza (se mueve con ella)
+SOMBRERO = {
+    "normal": "",
+    "fiestas_patrias": "",
+    "anio_nuevo": """
+          <path d="M94 20 L 105 -12 L 116 20 Z" fill="#ec4899" stroke="#831843" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M98 10 L 112 10 M101 0 L 109 0" stroke="#fde047" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="105" cy="-14" r="4.5" fill="#fde047"/>""",
+    "san_valentin": """
+          <path class="latido" d="M105 -2 C 100 -10, 89 -6, 94 3 L 105 13 L 116 3 C 121 -6, 110 -10, 105 -2 Z"
+            fill="#f43f5e" stroke="#881337" stroke-width="1.5"/>""",
+    "halloween": """
+          <ellipse cx="105" cy="22" rx="28" ry="6" fill="#6d28d9" stroke="#2e1065" stroke-width="2"/>
+          <path d="M90 21 L 110 -20 Q 112 -22 113 -18 L 121 21 Z" fill="#7c3aed" stroke="#2e1065" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M92 15 L 119 15" stroke="#f97316" stroke-width="5"/>""",
+    "navidad": """
+          <path d="M86 24 Q 104 -18 142 6 L 126 24 Z" fill="#dc2626" stroke="#7f1d1d" stroke-width="2" stroke-linejoin="round"/>
+          <rect x="82" y="18" width="48" height="10" rx="5" fill="#ffffff" stroke="#d1d5db" stroke-width="1"/>
+          <circle cx="143" cy="6" r="6" fill="#ffffff" stroke="#d1d5db" stroke-width="1"/>""",
 }
 
 # Color de la etiqueta con el nombre
@@ -156,25 +161,30 @@ def generar(tema: str, hoy: date) -> str:
     return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 150" width="900" height="150">
   <!-- Apolo - tema: {tema} - generado el {hoy.isoformat()} con generar_gatito.py -->
   <style>
-    .paseo {{ animation: cruzar 16s linear infinite; }}
-    @keyframes cruzar {{ from {{ transform: translateX(-170px); }} to {{ transform: translateX(940px); }} }}
+    .paseo {{ animation: cruzar 18s linear infinite; }}
+    @keyframes cruzar {{ from {{ transform: translateX(-160px); }} to {{ transform: translateX(940px); }} }}
 
-    .pata {{ animation: paso .45s ease-in-out infinite alternate; }}
-    .pata.b {{ animation-delay: -.45s; }}
-    .p1 {{ transform-origin: 34px 74px; }}
-    .p2 {{ transform-origin: 46px 74px; }}
-    .p3 {{ transform-origin: 80px 74px; }}
-    .p4 {{ transform-origin: 92px 74px; }}
-    @keyframes paso {{ from {{ transform: rotate(-18deg); }} to {{ transform: rotate(18deg); }} }}
+    /* pasitos cortos y rápidos */
+    .pata {{ animation: paso .35s ease-in-out infinite alternate; }}
+    .pata.b {{ animation-delay: -.35s; }}
+    .p1 {{ transform-origin: 36px 82px; }}
+    .p2 {{ transform-origin: 48px 82px; }}
+    .p3 {{ transform-origin: 72px 82px; }}
+    .p4 {{ transform-origin: 84px 82px; }}
+    @keyframes paso {{ from {{ transform: rotate(-16deg); }} to {{ transform: rotate(16deg); }} }}
 
-    .cuerpo {{ animation: rebote .45s ease-in-out infinite alternate; }}
-    @keyframes rebote {{ to {{ transform: translateY(-2px); }} }}
+    .cuerpo {{ animation: rebote .35s ease-in-out infinite alternate; }}
+    @keyframes rebote {{ to {{ transform: translateY(-2.5px); }} }}
 
-    .cola {{ transform-origin: 22px 60px; animation: mecer 1.2s ease-in-out infinite alternate; }}
-    @keyframes mecer {{ from {{ transform: rotate(-12deg); }} to {{ transform: rotate(14deg); }} }}
+    /* la cabeza se inclina de un lado a otro, con curiosidad */
+    .cabeza {{ transform-origin: 104px 64px; animation: inclinar 2.6s ease-in-out infinite alternate; }}
+    @keyframes inclinar {{ from {{ transform: rotate(-5deg); }} to {{ transform: rotate(5deg); }} }}
 
-    .ojos {{ transform-origin: 118px 39px; animation: parpadear 4s infinite; }}
-    @keyframes parpadear {{ 0%, 92%, 100% {{ transform: scaleY(1); }} 95% {{ transform: scaleY(.1); }} }}
+    .cola {{ transform-origin: 26px 68px; animation: mecer 1.1s ease-in-out infinite alternate; }}
+    @keyframes mecer {{ from {{ transform: rotate(-10deg); }} to {{ transform: rotate(16deg); }} }}
+
+    .ojos {{ transform-origin: 105px 48px; animation: parpadear 4s infinite; }}
+    @keyframes parpadear {{ 0%, 93%, 100% {{ transform: scaleY(1); }} 96% {{ transform: scaleY(.1); }} }}
 
     .brillo {{ animation: brillar 1.6s ease-in-out infinite alternate; }}
     @keyframes brillar {{ from {{ opacity: 1; }} to {{ opacity: .35; }} }}
@@ -185,52 +195,78 @@ def generar(tema: str, hoy: date) -> str:
     .ondear {{ transform-box: fill-box; transform-origin: left center; animation: ondear 1.4s ease-in-out infinite alternate; }}
     @keyframes ondear {{ to {{ transform: skewY(6deg) scaleX(.94); }} }}
 
-    .pelo {{ fill: #26262c; stroke: #8b8f9a; stroke-width: 2.5; }}
-    .raya {{ fill: none; stroke: #55556a; stroke-width: 4; stroke-linecap: round; }}
-    .bigote {{ stroke: #c4c7cf; stroke-width: 1.5; stroke-linecap: round; }}
+    .pelo {{ fill: #2a2a33; stroke: #9095a3; stroke-width: 2.5; stroke-linejoin: round; }}
+    .raya {{ fill: none; stroke: #4d4d5e; stroke-width: 3.5; stroke-linecap: round; }}
+    .bigote {{ stroke: #c4c7cf; stroke-width: 1.4; stroke-linecap: round; }}
   </style>
 {suelo}
 
   <g class="paseo">
-    <g transform="translate(0 46)">
-      <rect class="pata p2 b pelo" x="42" y="68" width="10" height="30" rx="5" style="fill:#1b1b20"/>
-      <rect class="pata p4 pelo" x="88" y="68" width="10" height="30" rx="5" style="fill:#1b1b20"/>
+    <g transform="translate(0 48)">
+      <!-- patitas de atrás -->
+      <rect class="pata p2 b pelo" x="42" y="80" width="12" height="16" rx="6" style="fill:#202028"/>
+      <rect class="pata p4 pelo" x="78" y="80" width="12" height="16" rx="6" style="fill:#202028"/>
 
       <g class="cuerpo">
-        <path class="cola" d="M24 60 C 4 54, -6 34, 6 16" fill="none" stroke="#8b8f9a" stroke-width="11" stroke-linecap="round"/>
-        <path class="cola" d="M24 60 C 4 54, -6 34, 6 16" fill="none" stroke="#26262c" stroke-width="7" stroke-linecap="round"/>
-        <ellipse class="pelo" cx="62" cy="62" rx="44" ry="21"/>
-        <path class="raya" d="M48 44 C 50 52, 50 58, 46 66"/>
-        <path class="raya" d="M62 42 C 64 50, 64 58, 60 68"/>
-        <path class="raya" d="M76 43 C 78 50, 78 56, 74 64"/>
+        <!-- colita enroscada -->
+        <path class="cola" d="M26 68 C 6 66, 2 44, 14 38 C 23 34, 28 43, 21 47" fill="none" stroke="#9095a3" stroke-width="12" stroke-linecap="round"/>
+        <path class="cola" d="M26 68 C 6 66, 2 44, 14 38 C 23 34, 28 43, 21 47" fill="none" stroke="#2a2a33" stroke-width="7" stroke-linecap="round"/>
 
-        <path class="pelo" d="M98 30 L 101 8 L 114 24 Z"/>
-        <path class="pelo" d="M120 24 L 132 8 L 134 32 Z"/>
-        <path d="M102 26 L 103 14 L 110 23 Z" fill="#f9a8b8"/>
-        <path d="M124 24 L 130 14 L 131 29 Z" fill="#f9a8b8"/>
-        <circle class="pelo" cx="117" cy="42" r="21"/>
-        <path class="raya" d="M112 24 L 113 30 M118 23 L 118 29 M124 24 L 123 30" stroke-width="2.5"/>
-        <g class="ojos">
-          <ellipse cx="110" cy="39" rx="4.5" ry="5.5" fill="#facc15"/>
-          <ellipse cx="125" cy="39" rx="4.5" ry="5.5" fill="#facc15"/>
-          <ellipse cx="111" cy="39" rx="1.4" ry="4.5" fill="#111"/>
-          <ellipse cx="126" cy="39" rx="1.4" ry="4.5" fill="#111"/>
+        <!-- cuerpito redondo con rayitas -->
+        <ellipse class="pelo" cx="57" cy="72" rx="34" ry="20"/>
+        <path class="raya" d="M44 55 C 46 61, 46 66, 43 71"/>
+        <path class="raya" d="M56 53 C 58 60, 58 66, 55 72"/>
+        <path class="raya" d="M68 54 C 70 60, 70 65, 67 70"/>
+        <ellipse cx="62" cy="82" rx="18" ry="6" fill="#3a3a46"/>
+
+        <!-- collar -->
+        <path d="M86 70 Q 101 80 118 71" fill="none" stroke="#dc2626" stroke-width="5" stroke-linecap="round"/>
+        {CUELLO[tema]}
+
+        <g class="cabeza">
+          <!-- orejitas redondeadas -->
+          <path class="pelo" d="M80 36 C 75 20, 79 9, 86 10 C 92 11, 98 18, 101 24 Z"/>
+          <path class="pelo" d="M109 23 C 113 17, 121 9, 127 11 C 133 13, 133 24, 130 36 Z"/>
+          <path d="M84 30 C 82 21, 84 15, 87 15 C 91 16, 94 20, 96 23 Z" fill="#f9a8c8"/>
+          <path d="M114 23 C 117 19, 121 15, 124 15 C 127 16, 127 23, 126 29 Z" fill="#f9a8c8"/>
+
+          <!-- cabezota redondita -->
+          <ellipse class="pelo" cx="105" cy="48" rx="31" ry="27"/>
+          <path class="raya" d="M98 23 L 99 29 M105 22 L 105 28 M112 23 L 111 29" stroke-width="2.5"/>
+
+          <!-- ojazos brillantes -->
+          <g class="ojos">
+            <circle cx="93" cy="48" r="8" fill="#facc15"/>
+            <circle cx="117" cy="48" r="8" fill="#facc15"/>
+            <circle cx="94" cy="49" r="5.8" fill="#111118"/>
+            <circle cx="118" cy="49" r="5.8" fill="#111118"/>
+            <circle cx="91.5" cy="46" r="2.4" fill="#ffffff"/>
+            <circle cx="115.5" cy="46" r="2.4" fill="#ffffff"/>
+            <circle cx="96" cy="51.5" r="1.1" fill="#ffffff"/>
+            <circle cx="120" cy="51.5" r="1.1" fill="#ffffff"/>
+          </g>
+
+          <!-- cachetes, naricita y boquita "w" -->
+          <ellipse cx="83" cy="59" rx="5.5" ry="3.2" fill="#f472b6" opacity=".55"/>
+          <ellipse cx="127" cy="59" rx="5.5" ry="3.2" fill="#f472b6" opacity=".55"/>
+          <path d="M102.5 55.5 L 107.5 55.5 L 105 58.5 Z" fill="#f9a8c8" stroke-linejoin="round"/>
+          <path d="M100 60 Q 102.5 64 105 60 Q 107.5 64 110 60" fill="none" stroke="#c4c7cf" stroke-width="1.6" stroke-linecap="round"/>
+          <line class="bigote" x1="122" y1="56" x2="138" y2="53"/>
+          <line class="bigote" x1="122" y1="59" x2="138" y2="60"/>
+          <line class="bigote" x1="88" y1="56" x2="72" y2="53"/>
+          <line class="bigote" x1="88" y1="59" x2="72" y2="60"/>
+          {SOMBRERO[tema]}
         </g>
-        <path d="M115 47 L 121 47 L 118 50.5 Z" fill="#f472b6"/>
-        <path d="M118 50.5 C 116 54, 112 54, 111 52 M118 50.5 C 120 54, 124 54, 125 52" fill="none" stroke="#8b8f9a" stroke-width="1.5" stroke-linecap="round"/>
-        <line class="bigote" x1="126" y1="48" x2="146" y2="44"/>
-        <line class="bigote" x1="126" y1="51" x2="146" y2="52"/>
-        <line class="bigote" x1="110" y1="48" x2="92" y2="44"/>
-        <line class="bigote" x1="110" y1="51" x2="92" y2="52"/>
-{COLLAR}{ACCESORIOS[tema]}
 
-        <rect x="34" y="10" width="56" height="20" rx="10" fill="{COLOR_NOMBRE[tema]}"/>
-        <text x="62" y="24.5" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif"
+        <!-- etiqueta con su nombre -->
+        <rect x="18" y="20" width="56" height="20" rx="10" fill="{COLOR_NOMBRE[tema]}"/>
+        <text x="46" y="34.5" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif"
           font-size="13" font-weight="700" fill="#ffffff">Apolo</text>
       </g>
 
-      <rect class="pata p1 pelo" x="30" y="68" width="10" height="30" rx="5"/>
-      <rect class="pata p3 b pelo" x="76" y="68" width="10" height="30" rx="5"/>
+      <!-- patitas de adelante -->
+      <rect class="pata p1 pelo" x="30" y="80" width="12" height="16" rx="6"/>
+      <rect class="pata p3 b pelo" x="66" y="80" width="12" height="16" rx="6"/>
     </g>
   </g>
 </svg>
