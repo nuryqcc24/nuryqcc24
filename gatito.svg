@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 150" width="900" height="150">
-  <!-- Apolo - tema: halloween - generado el 2026-10-30 con generar_gatito.py -->
+  <!-- Apolo - tema: halloween - generado el 2026-10-31 con generar_gatito.py -->
   <style>
     .paseo { animation: cruzar 18s linear infinite; }
     @keyframes cruzar { from { transform: translateX(-160px); } to { transform: translateX(940px); } }
